@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { CategoriesModule } from './categories/categories.module';
 import { Type } from 'class-transformer';
 import { typeOrmconfig } from './config/typeorm.config';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { typeOrmconfig } from './config/typeorm.config';
       useFactory:typeOrmconfig,
       inject: [ConfigService]//para inyectar las variables de entorno
     }),
-    CategoriesModule
+    CategoriesModule,//se agrega al crear el recurso
+    ProductsModule
   ],
   controllers: [AppController],
   providers: [AppService],
