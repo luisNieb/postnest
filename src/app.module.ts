@@ -7,6 +7,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { Type } from 'class-transformer';
 import { typeOrmconfig } from './config/typeorm.config';
 import { ProductsModule } from './products/products.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { ProductsModule } from './products/products.module';
       inject: [ConfigService]//para inyectar las variables de entorno
     }),
     CategoriesModule,//se agrega al crear el recurso
-    ProductsModule
+    ProductsModule, TransactionsModule
   ],
   controllers: [AppController],
   providers: [AppService],
