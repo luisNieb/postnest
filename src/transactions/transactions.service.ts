@@ -11,9 +11,10 @@ import {
   TransactionContents
 } from "./entities/transaction.entity";
 import { Between, FindManyOptions, Repository, ReturningStatementNotSupportedError } from "typeorm";
-import { Product } from "src/products/entities/product.entity";
+import { Product } from "../products/entities/product.entity";
 
 import { endOfDay, isValid, parseISO, startOfDay } from "date-fns";
+import { CouponsService } from "../coupons/coupons.service";
 
 @Injectable()
 export class TransactionsService {
@@ -23,7 +24,8 @@ export class TransactionsService {
     @InjectRepository(TransactionContents)
     private readonly transactionContensRepository: Repository<TransactionContents>,
     @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>
+    private readonly productRepository: Repository<Product>,
+    private readonly couponService:CouponsService //inyectar el service de coupon
   ) {}
 
   async create(createTransactionDto: CreateTransactionDto) {
@@ -36,6 +38,22 @@ export class TransactionsService {
           0
         );
         transaction.total = total;
+
+        //verificar si existe algun cupon
+ 
+        if(createTransactionDto.coupon){
+             //itulizamos el metodo se couponService
+             const coupon = await this.couponService.applyCouponService(createTransactionDto.coupon)
+             
+             //calcular el toal del porcenteje del cupon y asignar los valores
+             const discount = (coupon.percentage / 100)*total
+             transaction.discount =discount
+             transaction.coupon= coupon.name
+             transaction.total -= discount
+
+        }
+
+
         //Guardar la transaccion
         await transactionEntityManager.save(transaction);
 

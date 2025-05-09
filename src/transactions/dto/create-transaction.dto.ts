@@ -23,6 +23,9 @@ export class CreateTransactionDto {
   @IsNumber({}, {message: 'Cantidad no válida'})
   total: number
 
+  @IsOptional()
+  coupon:string
+
   @IsArray()
   @ArrayNotEmpty({message: 'Los Contenidos no pueden ir vacios'})
   @ValidateNested()//agrega subvalidaciones en este caso deven ser del tipo TransactinContentsDto
