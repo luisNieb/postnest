@@ -2,7 +2,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -25,9 +25,21 @@ export class CategoriesService {
     return this.categoryRepository.find();
   }
 
-   async findOne(id: number) {
+   async findOne(id: number,product?:string) {
+ 
+    const options :FindManyOptions<Category>={
+       where:{
+        id
+       }
+    }
+
+    if(product ==='true'){
+      options.relations={
+        products:true
+      }
+    }
     
-    const category= await this.categoryRepository.findOneBy({id:id});
+    const category= await this.categoryRepository.findOne(options);
     if(!category){
       //excepcion que vine con nest
       throw new NotFoundException("La categoria no existe ")

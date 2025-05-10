@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, Put } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { GetProductsQueryDto } from './dto/get-product.dto';
 import { IdValidationPipe } from '../common/pipes/id-validation/id-validation.pipe';
+import { products } from 'src/seeder/data/products';
 
 @Controller('products')
 export class ProductsController {
@@ -28,7 +29,9 @@ export class ProductsController {
   }
 
   @Get(':id')
-  findOne(@Param('id',IdValidationPipe) id: string) {
+  findOne(
+     @Param('id',IdValidationPipe) id: string,
+    ) {
     return this.productsService.findOne(+id);
   }
 
