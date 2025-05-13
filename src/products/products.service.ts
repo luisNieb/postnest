@@ -106,7 +106,13 @@ export class ProductsService {
 
  async remove(id: number) {
   const product = await this.findOne(id)
-  await this.productRepository.remove(product)
-    return `Producto eliminado`;
+  try {
+     await this.productRepository.remove(product)
+     return {message:`Producto eliminado`};
+    
+  } catch (error) {
+     return {error:"Error"}
+  }
+ 
   }
 }

@@ -9,6 +9,7 @@ import { typeOrmconfig } from './config/typeorm.config';
 import { ProductsModule } from './products/products.module';
 import { TransactionsModule } from './transactions/transactions.module';
 import { CouponsModule } from './coupons/coupons.module';
+import { UploadImageModule } from './upload-image/upload-image.module';
 
 
 @Module({
@@ -21,7 +22,7 @@ import { CouponsModule } from './coupons/coupons.module';
       inject: [ConfigService]//para inyectar las variables de entorno
     }),
     CategoriesModule,//se agrega al crear el recurso
-    ProductsModule, TransactionsModule, CouponsModule
+    ProductsModule, TransactionsModule, CouponsModule, UploadImageModule
   ],
   controllers: [AppController],
   providers: [AppService],
